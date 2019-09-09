@@ -39,6 +39,10 @@ class Stopwatch extends Component {
     //     });
     // }
 
+    componentWillUnmount() {
+        clearInterval(this.timer);
+    }
+
 
 
     render() {
