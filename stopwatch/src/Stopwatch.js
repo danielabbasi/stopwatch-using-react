@@ -6,7 +6,7 @@ class Stopwatch extends Component {
         this.state = {status: false,
                       timeElapsed: 0}
     }
-    handleClick = () => {
+    handleStopStart = () => {
         this.setState(state => {
             if (state.status) {
                 clearInterval(this.timer); // stops the timer when stop button is pressed
@@ -19,6 +19,11 @@ class Stopwatch extends Component {
             }
             return {status: !state.status};
         })
+    }
+
+    handleLapReset = () => {
+        clearInterval (this.timer);
+        this.setState({ timeElapsed : 0, status: false });
     }
 
     // componentDidMount() {
@@ -41,8 +46,8 @@ class Stopwatch extends Component {
         return (
             <div>
             <p>{timeElapsed}ms</p>
-            <button onClick={this.handleClick}>{status ? 'Stop' : 'Start'}</button>
-            <button>Reset</button>
+            <button onClick={this.handleStopStart}>{status ? 'Stop' : 'Start'}</button>
+            <button onClick={this.handleLapReset}>Reset</button>
             </div>
         )
     }
