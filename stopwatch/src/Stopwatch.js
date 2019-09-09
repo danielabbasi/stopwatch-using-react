@@ -10,4 +10,6 @@ class Stopwatch extends Component {
             </div>
         )
     }
-    }
+}
+
+export default Stopwatch;
