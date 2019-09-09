@@ -26,6 +26,15 @@ class Stopwatch extends Component {
         this.setState({ timeElapsed : 0, status: false });
     }
 
+    millisecondConversion = (timeElapsed) => {
+        var milliseconds = timeElapsed % 1000;
+        var seconds = Math.floor((timeElapsed / 1000) % 60);
+        var minutes = Math.floor((timeElapsed / (60 * 1000)) % 60);
+        const pad = (time) => time < 10 ? '0' + time : time
+        
+        return pad(minutes) + ":" + pad(seconds) + "." + pad(milliseconds);
+    }
+
     // componentDidMount() {
     //     this.timerID = setInterval(
     //         () => this.tick(),
@@ -49,7 +58,7 @@ class Stopwatch extends Component {
         const { status, timeElapsed } = this.state;
         return (
             <div>
-            <p>{timeElapsed}ms</p>
+            <p>{this.millisecondConversion(timeElapsed)}ms</p>
             <button onClick={this.handleStopStart}>{status ? 'Stop' : 'Start'}</button>
             <button onClick={this.handleLapReset}>Reset</button>
             </div>
