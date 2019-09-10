@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import './App.css';
+
 
 class Stopwatch extends Component {
     constructor(props) {
@@ -62,7 +64,7 @@ class Stopwatch extends Component {
             <>
                 <p>{this.millisecondConversion(timeElapsed)}ms</p>
                 <button onClick={this.handleLapReset}>{status && timeElapsed > 0 ? 'Lap' : 'Reset'}</button>
-                <button onClick={this.handleStopStart} >{status ? 'Stop' : 'Start'}</button>
+                <button className={status ? "stopBtn" : "startBtn"} onClick={this.handleStopStart} >{status ? 'Stop' : 'Start'}</button>
                 {lapTimes.map(lap => <ul>
                     <li key={lap}>{this.millisecondConversion(lap)}</li>
                 </ul>)}
