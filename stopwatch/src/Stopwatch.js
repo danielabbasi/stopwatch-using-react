@@ -28,7 +28,7 @@ class Stopwatch extends Component {
 
     handleLapReset = () => {
             if (this.state.status === false) {
-                this.timer = this.setState({ timeElapsed : 0});
+                this.timer = this.setState({ timeElapsed : 0, lapTimes: []});
             } else {
                if(this.state.lapTimes.length === 0) {
                     this.currentTime = this.state.timeElapsed;
