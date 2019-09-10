@@ -6,35 +6,42 @@ class Stopwatch extends Component {
         this.state = {
             status: false,
             timeElapsed: 0,
-            laps: [1, 2, 8]
+            lapTimes: [],
+            currentTime: 0
         }
     }
-    // handleStopStart = () => {
-    //     this.setState(state => {
-    //         if (state.status) {
-    //             clearInterval(this.timer); // stops the timer when stop button is pressed
-    //         } else {
-    //             // const startTime = Date.now() - this.state.timeElapsed;
-    //             // console.log(startTime);
-    //             this.timer = setInterval(() => {
-    //                 this.setState({ timeElapsed: state.timeElapsed++ }); // updater function timer that accepts the current state and returns new state with updated time. this is because state is immutable
-    //             },10);
-    //         }
-    //         return {status: !state.status};
-    //     })
-    // }
 
-    // handleLapReset = () => {
-    //     this.setState( state => {
-    //         if (state.status === false) {
-    //             clearInterval(this.timer);
-    //             this.timer = this.setState({ timeElapsed : 0});
-    //         } else {
+    handleStopStart = () => {
+            if (this.state.status) {
+                clearInterval(this.timer);
+                this.setState({status: false})
+            } else {
+                this.timer = setInterval(() => {
+                    this.setState({ timeElapsed: this.state.timeElapsed+1 }); // updater function timer that accepts the current state and returns new state with updated time. this is because state is immutable
+                },10);
+                this.setState({status: true})
 
+            }
+    }
 
-    //         }
-    //     })
-    // }
+    handleLapReset = () => {
+            if (this.state.status === false) {
+                this.timer = this.setState({ timeElapsed : 0});
+            } else {
+               if(this.state.lapTimes.length === 0) {
+                    this.currentTime = this.state.timeElapsed;
+                    this.setState((state) => {
+                        this.state.lapTimes.push(this.state.timeElapsed)
+                    })
+               } else {
+                    const difference = this.state.timeElapsed - this.currentTime;
+                    this.setState((state) => {
+                        this.state.lapTimes.push(difference)
+                    })
+                    this.currentTime = this.state.timeElapsed;
+               }
+            }
+    }
 
     millisecondConversion = (timeElapsed) => {
         var milliseconds = timeElapsed % 100;
@@ -45,44 +52,19 @@ class Stopwatch extends Component {
         return pad(minutes) + ":" + pad(seconds) + "." + pad(milliseconds);
     }
 
-    // findDifference = (array) => {
-    //     return array.map(function(value, index) {
-    //         if (index === 0) {
-    //             return value
-    //         } else {
-    //             return value - array[index-1];
-    //         }
-    //     })
-    // }
-
-    // // componentDidMount() {
-    // //     this.timerID = setInterval(
-    // //         () => this.tick(),
-    // //         1000
-    // //     );
-    // // }
-
-    // // tick() {
-    // //     this.setState({
-    // //         timeElapsed: this.timeElapsed + 1
-    // //     });
-    // // }
-
-    // componentWillUnmount() {
-    //     clearInterval(this.timer);
-    // }
-
-
+    componentWillUnmount() {
+        clearInterval(this.timer);
+    }
 
     render() {
-        const { status, timeElapsed } = this.state;
+        const { status, timeElapsed, lapTimes } = this.state;
         return (
             <>
                 <p>{this.millisecondConversion(timeElapsed)}ms</p>
-                <button >{status && timeElapsed > 0 ? 'Lap' : 'Reset'}</button>
-                <button >{status ? 'Stop' : 'Start'}</button>
-                {this.state.laps.map(lap => <ul>
-                    <li>{this.millisecondConversion(lap)}</li>
+                <button onClick={this.handleLapReset}>{status && timeElapsed > 0 ? 'Lap' : 'Reset'}</button>
+                <button onClick={this.handleStopStart} >{status ? 'Stop' : 'Start'}</button>
+                {lapTimes.map(lap => <ul>
+                    <li key={lap}>{this.millisecondConversion(lap)}</li>
                 </ul>)}
             </>
         )
