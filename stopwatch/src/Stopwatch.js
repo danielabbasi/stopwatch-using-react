@@ -23,13 +23,12 @@ class Stopwatch extends Component {
                     this.setState({ timeElapsed: this.state.timeElapsed+1 }); // updater function timer that accepts the current state and returns new state with updated time. this is because state is immutable
                 },10);
                 this.setState({status: true})
-
             }
     }
 
     handleLapReset = () => {
             if (this.state.status === false) {
-                this.timer = this.setState({ timeElapsed : 0, lapTimes: []});
+                this.timer = this.setState({ timeElapsed : 0, lapTimes: [], currentTime: 0});
             } else {
                if(this.state.lapTimes.length === 0) {
                     this.currentTime = this.state.timeElapsed;
@@ -37,11 +36,12 @@ class Stopwatch extends Component {
                         this.state.lapTimes.push(this.state.timeElapsed)
                     })
                } else {
-                    const difference = this.state.timeElapsed - this.currentTime;
+                    const difference = this.state.timeElapsed - this.state.currentTime;
                     this.setState((state) => {
-                        this.state.lapTimes.push(difference)
+                        state.lapTimes.push(difference);
+                        
                     })
-                    this.currentTime = this.state.timeElapsed;
+                    this.setState({ currentTime: this.state.timeElapsed})
                 }
             }
     }
@@ -56,6 +56,20 @@ class Stopwatch extends Component {
         } else {
             return "lapList"
         }
+    }
+
+    topRowTimer = () => {
+        if (this.state.lapTimes.length === 0) {
+            return this.state.timeElapsed;    
+        } else {
+            console.log(this.state.currentTime)
+            return this.state.timeElapsed - this.state.currentTime;
+        }
+        
+        // if (this.state.lapTimes === 0) {
+        //     console.log("jo")
+        //     return this.state.timeElapsed;
+        // }
     }
 
     millisecondConversion = (timeElapsed) => {
@@ -80,6 +94,7 @@ class Stopwatch extends Component {
                 <button className={status ? "resetBtn" : "lapBtn"} onClick={this.handleLapReset}>{status && timeElapsed > 0 ? 'Lap' : 'Reset'}</button>               
                 <button className={status ? "stopBtn" : "startBtn"} onClick={this.handleStopStart} >{status ? 'Stop' : 'Start'}</button>
                 </div>
+                {this.millisecondConversion(this.topRowTimer())}
                 {lapTimes.slice(0).reverse().map((lap, index) => <ul>
                     <li className={this.findMinMax(lap)} key={index}>Lap {lapTimes.length - index}   {this.millisecondConversion(lap)}</li>
                 </ul>)}
