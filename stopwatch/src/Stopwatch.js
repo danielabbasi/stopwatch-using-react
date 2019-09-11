@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-import classNames from 'classnames';
-
 
 class Stopwatch extends Component {
     constructor(props) {
@@ -31,7 +29,7 @@ class Stopwatch extends Component {
                 this.timer = this.setState({ timeElapsed : 0, lapTimes: [], currentTime: 0});
             } else {
                if(this.state.lapTimes.length === 0) {
-                    this.currentTime = this.state.timeElapsed;
+                    this.setState({ currentTime: this.state.timeElapsed})
                     this.setState((state) => {
                         this.state.lapTimes.push(this.state.timeElapsed)
                     })
@@ -65,11 +63,6 @@ class Stopwatch extends Component {
             console.log(this.state.currentTime)
             return this.state.timeElapsed - this.state.currentTime;
         }
-        
-        // if (this.state.lapTimes === 0) {
-        //     console.log("jo")
-        //     return this.state.timeElapsed;
-        // }
     }
 
     millisecondConversion = (timeElapsed) => {
@@ -102,5 +95,4 @@ class Stopwatch extends Component {
         )
     }
 }
-
 export default Stopwatch;
