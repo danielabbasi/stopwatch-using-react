@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import classNames from 'classnames';
 
 
 class Stopwatch extends Component {
@@ -52,6 +53,8 @@ class Stopwatch extends Component {
                 return "maxLap"
             } else if (minLap === laps && this.state.lapTimes.length > 2) {
                 return "minLap"           
+        } else {
+            return "lapList"
         }
     }
 

@@ -148,9 +148,19 @@ body {
 }
 
 .maxLap {
-  color: red
+  color: red;
+  list-style-type: none;
+  border-top: 2px solid grey;
+  border-bottom: 2px solid grey;
+  padding: 5px;
+  margin: 5px;
 }
 
 .minLap {
-  color: green
+  color: green;
+  list-style-type: none;
+  border-top: 2px solid grey;
+  border-bottom: 2px solid grey;
+  padding: 5px;
+  margin: 5px;
 }
