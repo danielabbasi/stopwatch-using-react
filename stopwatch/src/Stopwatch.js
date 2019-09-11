@@ -10,8 +10,6 @@ class Stopwatch extends Component {
             timeElapsed: 0,
             lapTimes: [],
             currentTime: 0,
-            minLap: 0,
-            maxLap: 0
         }
     }
 
@@ -42,17 +40,19 @@ class Stopwatch extends Component {
                     this.setState((state) => {
                         this.state.lapTimes.push(difference)
                     })
-                    
                     this.currentTime = this.state.timeElapsed;
-                    if (this.state.lapTimes.length > 2) {
-                        this.setState({ maxLap: Math.max(...this.state.lapTimes) })
-                        this.setState({ minLap: Math.min(...this.state.lapTimes) })
-                        console.log("max lap " + this.state.maxLap)
-                        console.log("min lap " + this.state.minLap)
-
-                    }
                 }
             }
+    }
+
+    findMinMax = (laps) => {
+            const maxLap = Math.max(...this.state.lapTimes)
+            const minLap = Math.min(...this.state.lapTimes)
+            if (maxLap === laps && this.state.lapTimes.length > 2) {
+                return "maxLap"
+            } else if (minLap === laps && this.state.lapTimes.length > 2) {
+                return "minLap"           
+        }
     }
 
     millisecondConversion = (timeElapsed) => {
@@ -69,7 +69,7 @@ class Stopwatch extends Component {
     }
 
     render() {
-        const { status, timeElapsed, lapTimes, maxLap, minLap } = this.state;
+        const { status, timeElapsed, lapTimes } = this.state;
         return (
             <>
                 <p className="timer">{this.millisecondConversion(timeElapsed)}</p>
@@ -78,7 +78,7 @@ class Stopwatch extends Component {
                 <button className={status ? "stopBtn" : "startBtn"} onClick={this.handleStopStart} >{status ? 'Stop' : 'Start'}</button>
                 </div>
                 {lapTimes.slice(0).reverse().map((lap, index) => <ul>
-                    <li className="lapList" key={index}>Lap {lapTimes.length - index}   {this.millisecondConversion(lap)}</li>
+                    <li className={this.findMinMax(lap)} key={index}>Lap {lapTimes.length - index}   {this.millisecondConversion(lap)}</li>
                 </ul>)}
             </>
         )
