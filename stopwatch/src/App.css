@@ -50,7 +50,7 @@ body {
   display: inline-block;
   font-family: '-apple-system','HelveticaNeue';
   font-size: 70px; 
-  font-weight: 1;
+  /* font-weight: 1; */
   letter-spacing: 5px;
   color: white;
 }
