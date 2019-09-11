@@ -90,7 +90,7 @@ class Stopwatch extends Component {
                 <table>
                     <td className="lap">Lap {lapTimes.length + 1} </td><td>{this.millisecondConversion(this.topRowTimer())}</td>
 
-                    {lapTimes.map((lap, index) => <tr key={index} className={this.findMinMax(lap)}>
+                    {lapTimes.reverse().map((lap, index) => <tr key={index} className={this.findMinMax(lap)}>
                         <td className="lap">Lap {lapTimes.length - index} </td><td className="time">{this.millisecondConversion(lap)}</td>
                         
 
