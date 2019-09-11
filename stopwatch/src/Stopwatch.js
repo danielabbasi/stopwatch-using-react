@@ -47,6 +47,9 @@ class Stopwatch extends Component {
                     if (this.state.lapTimes.length > 2) {
                         this.setState({ maxLap: Math.max(...this.state.lapTimes) })
                         this.setState({ minLap: Math.min(...this.state.lapTimes) })
+                        console.log("max lap " + this.state.maxLap)
+                        console.log("min lap " + this.state.minLap)
+
                     }
                 }
             }
@@ -69,11 +72,13 @@ class Stopwatch extends Component {
         const { status, timeElapsed, lapTimes, maxLap, minLap } = this.state;
         return (
             <>
-                <p>{this.millisecondConversion(timeElapsed)}ms</p>
-                <button className={status ? "resetBtn" : "lapBtn"} onClick={this.handleLapReset}>{status && timeElapsed > 0 ? 'Lap' : 'Reset'}</button>
+                <p className="timer">{this.millisecondConversion(timeElapsed)}</p>
+                <div className="container">
+                <button className={status ? "resetBtn" : "lapBtn"} onClick={this.handleLapReset}>{status && timeElapsed > 0 ? 'Lap' : 'Reset'}</button>               
                 <button className={status ? "stopBtn" : "startBtn"} onClick={this.handleStopStart} >{status ? 'Stop' : 'Start'}</button>
-                {lapTimes.map((lap, index) => <ul>
-                    <li key={index}>Lap {index + 1} {this.millisecondConversion(lap)}</li>
+                </div>
+                {lapTimes.slice(0).reverse().map((lap, index) => <ul>
+                    <li className="lapList" key={index}>Lap {lapTimes.length - index}   {this.millisecondConversion(lap)}</li>
                 </ul>)}
             </>
         )

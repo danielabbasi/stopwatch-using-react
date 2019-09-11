@@ -1,3 +1,60 @@
+* {
+  margin: 0;
+  padding:0;
+}
+
+body {
+  height: 100vh;
+}
+
+.App {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  padding: 100px;
+  background-color: black;
+  color: white;
+  text-align: center;
+
+}
+
+.lapList {
+  list-style-type: none;
+  border-top: 2px solid grey;
+  border-bottom: 2px solid grey;
+  padding: 5px;
+  margin: 5px;
+}
+
+.containter {
+  flex-direction: row;
+  padding: 20px;
+  display: inline-block;
+  position: relative;
+  left: 50%;
+  top:30%;
+  transform: translate(-50%,-50%);
+  
+}
+
+.diviver {
+  width: 5px;
+  height: auto;
+  display: inline-block;
+}
+
+.timer   {
+  padding: 10px;
+  overflow: hidden;
+  display: inline-block;
+  font-family: '-apple-system','HelveticaNeue';;
+  font-size: 70px; 
+  font-weight: 1;
+  letter-spacing: 5px;
+  color: white;
+}
+
 .startBtn {
   background-color: green;
   display: inline-block;
@@ -14,6 +71,7 @@
   box-shadow: 0px 0px 0px 5px #8cd460;
   border: solid 2px rgba(255, 255, 255, 0.47);
   transition: .4s;
+  margin: 80px;
 }
 
 .startBtn:hover{
@@ -36,6 +94,7 @@
   box-shadow: 0px 0px 0px 5px #7a1c1c;
   border: solid 2px rgba(0, 0, 0, 0.47);
   transition: .4s;
+  margin: 80px;
 }
 
 .stopBtn:hover{
@@ -58,6 +117,7 @@
   box-shadow: 0px 0px 0px 5px #777a74;
   border: solid 2px rgba(0, 0, 0, 0.47);
   transition: .4s;
+  margin: 80px;
 }
 
 .resetBtn:hover{
@@ -80,6 +140,7 @@
   box-shadow: 0px 0px 0px 5px #777a74;
   border: solid 2px rgba(0, 0, 0, 0.47);
   transition: .4s;
+  margin: 80px;
 }
 
 .lapBtn:hover{
@@ -92,8 +153,4 @@
 
 .minLap {
   color: green
-}
-
-.App {
-  text-align: center;
 }
