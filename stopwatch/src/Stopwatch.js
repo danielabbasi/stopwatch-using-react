@@ -87,10 +87,23 @@ class Stopwatch extends Component {
                 <button className={status ? "resetBtn" : "lapBtn"} onClick={this.handleLapReset}>{status && timeElapsed > 0 ? 'Lap' : 'Reset'}</button>               
                 <button className={status ? "stopBtn" : "startBtn"} onClick={this.handleStopStart} >{status ? 'Stop' : 'Start'}</button>
                 </div>
-                Lap {lapTimes.length + 1}{this.millisecondConversion(this.topRowTimer())}
+                <table>
+                    <td className="lap">Lap {lapTimes.length + 1} </td><td>{this.millisecondConversion(this.topRowTimer())}</td>
+
+                    {lapTimes.map((lap, index) => <tr key={index} className={this.findMinMax(lap)}>
+                        <td className="lap">Lap {lapTimes.length - index} </td><td className="time">{this.millisecondConversion(lap)}</td>
+                        
+
+                    </tr>)}
+                    
+                    
+                    
+                    </table>    
+
+                {/* Lap {lapTimes.length + 1}{this.millisecondConversion(this.topRowTimer())}
                 {lapTimes.slice(0).reverse().map((lap, index) => <ul>
                     <li className={this.findMinMax(lap)} key={index}>Lap {lapTimes.length - index}   {this.millisecondConversion(lap)}</li>
-                </ul>)}
+                </ul>)} */}
             </>
         )
     }

@@ -1,6 +1,7 @@
 * {
   margin: 0;
   padding:0;
+  background-color: black;
 }
 
 body {
@@ -25,6 +26,29 @@ body {
   border-bottom: 2px solid grey;
   padding: 5px;
   margin: 5px;
+}
+
+.lap {
+  text-align: left;
+}
+
+.time {
+  text-align: right;
+}
+
+table {
+  border-spacing: 0 20px;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+td {
+  width: 170px;
+  border-bottom: 1px solid rgba(146, 146, 146, 0.5);
+  padding: 10px 0;
+  text-align: right;
+  margin-top: 15px;
 }
 
 .containter {
