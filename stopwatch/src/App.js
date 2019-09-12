@@ -8,7 +8,7 @@ class App extends Component {
     return (
       <div className="App">
         <div className="container">
-        <Stopwatch></Stopwatch>
+        <Stopwatch/>
         </div>
       </div>
     );
