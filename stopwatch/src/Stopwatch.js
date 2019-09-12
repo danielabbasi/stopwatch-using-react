@@ -26,16 +26,16 @@ class Stopwatch extends Component {
             this.timer = this.setState({ timeElapsed: 0, lapTimes: [], currentTime: 0 });
         } else {
             if (this.state.lapTimes.length === 0) {
-                this.setState({ currentTime: this.state.timeElapsed })
                 this.setState((state) => {
-                    this.state.lapTimes.push(this.state.timeElapsed)
+                    const newLapTimes = [...state.lapTimes, state.timeElapsed]
+                    return {...state, currentTime:state.timeElapsed, lapTimes:newLapTimes}
                 })
             } else {
                 const difference = this.state.timeElapsed - this.state.currentTime;
-                this.setState((state,props) => {
-                    state.lapTimes.push(difference);
+                this.setState((state) => {
+                    const newLapTimes = [...state.lapTimes, difference]
+                    return {...state, currentTime: state.timeElapsed, lapTimes: newLapTimes}  
                 })
-                this.setState({ currentTime: this.state.timeElapsed })
             }
         }
     }
@@ -71,7 +71,7 @@ class Stopwatch extends Component {
     }
 
     render() {
-        const { isRunning: isRunning, timeElapsed, lapTimes } = this.state;
+        const { isRunning, timeElapsed, lapTimes } = this.state;
         return (
             <>
                 <p className="timer">{this.millisecondConversion(timeElapsed)}</p>
