@@ -34,7 +34,6 @@ class Stopwatch extends Component {
                 const difference = this.state.timeElapsed - this.state.currentTime;
                 this.setState((state) => {
                     state.lapTimes.push(difference);
-
                 })
                 this.setState({ currentTime: this.state.timeElapsed })
             }
@@ -64,7 +63,6 @@ class Stopwatch extends Component {
         var seconds = Math.floor((timeElapsed / 100) % 60);
         var minutes = Math.floor((timeElapsed / (60 * 100)) % 60);
         const pad = (time) => time < 10 ? '0' + time : time
-
         return pad(minutes) + ":" + pad(seconds) + "." + pad(milliseconds);
     }
 
