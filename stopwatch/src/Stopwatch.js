@@ -4,6 +4,7 @@ import './App.css';
 const START_STOP = 'START_STOP';
 const INCREMENT_TIMER = 'INCREMENT_TIMER'
 const LAP_RESET = 'LAP_RESET';
+let interval;
 
 let initialState = {
     isRunning: false,
@@ -11,9 +12,6 @@ let initialState = {
     currentTime: 0,
     lapTimes: []
 }
-let interval;
-
-
 
 function reducer(state, action) {
     switch (action) {
@@ -40,12 +38,10 @@ function reducer(state, action) {
 }
 
 const Stopwatch = () => {
-
     const [state, dispatch] = useReducer(reducer, initialState)
     const { isRunning, timeElapsed, currentTime, lapTimes } = state
-    const startStopBtn = isRunning ? 'STOP' : 'START';
-    const lapResetBtn = isRunning || timeElapsed === 0 ? 'LAP' : 'RESET'
-   
+    const startStopBtn = isRunning ? 'Stop' : 'Start';
+    const lapResetBtn = isRunning || timeElapsed === 0 ? 'Lap' : 'Reset'
 
     useEffect(() => {
         if (state.isRunning) {
@@ -58,51 +54,47 @@ const Stopwatch = () => {
         }
     }, [state.isRunning])
 
+    const findMinMax = (laps) => {
+        const maxLap = Math.max(...lapTimes)
+        const minLap = Math.min(...lapTimes)
+        if (maxLap === laps && lapTimes.length > 2) {
+            return "maxLap"
+        } else if (minLap === laps && lapTimes.length > 2) {
+            return "minLap"
+        }
+    }
 
-    // const findMinMax = (laps) => {
-    //     const maxLap = Math.max(...lapTimes)
-    //     const minLap = Math.min(...lapTimes)
-    //     if (maxLap === laps && lapTimes.length > 2) {
-    //         return "maxLap"
-    //     } else if (minLap === laps && lapTimes.length > 2) {
-    //         return "minLap"
-    //     }
-    // }
+    const topRowTimer = () => {
+        if (lapTimes.length === 0) {
+            return timeElapsed;
+        } else {
+            return timeElapsed - currentTime;
+        }
+    }
 
-    // const topRowTimer = () => {
-    //     if (lapTimes.length === 0) {
-    //         return timeElapsed;
-    //     } else {
-    //         return timeElapsed - currentTime;
-    //     }
-    // }
-
-    // const millisecondConversion = (timeElapsed) => {
-    //     const milliseconds = timeElapsed % 100;
-    //     const seconds = Math.floor((timeElapsed / 100) % 60);
-    //     const minutes = Math.floor((timeElapsed / (60 * 100)) % 60);
-    //     const pad = (time) => time < 10 ? '0' + time : time
-    //     return pad(minutes) + ":" + pad(seconds) + "." + pad(milliseconds);
-    // }
+    const millisecondConversion = (timeElapsed) => {
+        const milliseconds = timeElapsed % 100;
+        const seconds = Math.floor((timeElapsed / 100) % 60);
+        const minutes = Math.floor((timeElapsed / (60 * 100)) % 60);
+        const pad = (time) => time < 10 ? '0' + time : time
+        return pad(minutes) + ":" + pad(seconds) + "." + pad(milliseconds);
+    }
 
     return (
-
-        // const { isRunning, timeElapsed, lapTimes } = this.state;
         <>
-            {/* <p className="timer">{millisecondConversion(timeElapsed)}</p> */}
-            <p>{timeElapsed}</p>
+            <p className = "timer">{millisecondConversion(timeElapsed)}</p>
             <div className="container">
-                <button onClick={() => dispatch(START_STOP)}>{startStopBtn}</button>
-                <button onClick={() => dispatch(LAP_RESET)} >{lapResetBtn}</button>
+                <button className={isRunning ? "resetBtn" : "lapBtn"} onClick={() => dispatch(LAP_RESET)} >{lapResetBtn}</button>
+                <button className={isRunning ? "stopBtn" : "startBtn"} onClick={() => dispatch(START_STOP)}>{startStopBtn}</button>
             </div>
-            {/* <table>
+            <table>
                     <tbody>
                         <td className="lap">Lap {lapTimes.length + 1} </td><td>{millisecondConversion(topRowTimer())}</td>
-                        {lapTimes.slice(0).reverse().map((lap, index) => <tr key={index} className={findMinMax(lap)}>
+                        {lapTimes.map((lap, index) => <tr key={index} className={findMinMax(lap)}>
                             <td className="lap">Lap {lapTimes.length - index} </td><td className="time">{millisecondConversion(lap)}</td>
                         </tr>)}
                     </tbody>
-                </table> */}
+                </table>
         </>
     )
 }
