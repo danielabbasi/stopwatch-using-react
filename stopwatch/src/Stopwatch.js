@@ -2,6 +2,7 @@ import React, { useCallback, useState, useEffect, useReducer } from 'react';
 import './App.css';
 
 const START_STOP = 'START_STOP';
+const INCREMENT_TIMER = 'INCREMENT_TIMER'
 // const LAP_RESET = 'LAP_RESET';
 
 let initialState = {
@@ -18,6 +19,10 @@ function reducer(state, action) {
     switch (action) {
         case START_STOP:
             return { ...state, isRunning: !state.isRunning };
+        case INCREMENT_TIMER:
+            if (state.isRunning) {
+                return {...state, timeElapsed: state.timeElapsed + 1}
+            }
         // case 'LAP_RESET':
         //     return null;
         default:
@@ -33,6 +38,14 @@ const Stopwatch = () => {
     const [state, dispatch] = useReducer(reducer, initialState)
     const { isRunning, timeElapsed, currentTime, lapTimes} = state
     const startStopBtn = isRunning ? 'STOP' : 'START';
+    let interval;
+
+    useEffect(() => {
+        interval = setInterval( () => dispatch(INCREMENT_TIMER), 10 )
+        return () => {
+            clearInterval(interval)
+        }
+    }, isRunning)
 
 
     // const findMinMax = (laps) => {
@@ -66,7 +79,7 @@ const Stopwatch = () => {
         // const { isRunning, timeElapsed, lapTimes } = this.state;
         <>
             {/* <p className="timer">{millisecondConversion(timeElapsed)}</p> */}
-            {/* <p>{state.timeElapsed}</p> */}
+            <p>{timeElapsed}</p>
             <div className="container">
                 <button onClick={() => dispatch(START_STOP)}>{startStopBtn}</button>
                 {/* <button onClick={() => dispatch({ type: LAP_RESET })} >LAP_RESET</button> */}
