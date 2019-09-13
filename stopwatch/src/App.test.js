@@ -1,13 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import Stopwatch, { reducer } from './Stopwatch'
+import Stopwatch, { reducer, findMinMax } from './Stopwatch'
+
 
 
 describe('Timer', () => {
   let previoustate
   let newState
-  
+
   describe('when initialised', () => {
 
     beforeEach(() => {
@@ -33,7 +34,7 @@ describe('Timer', () => {
       })
     })
 
-    describe('and LAP_RESET is triggered', () =>{
+    describe('and LAP_RESET is triggered', () => {
       beforeEach(() => {
         newState = reducer(previoustate, 'LAP_RESET')
       })
@@ -48,16 +49,16 @@ describe('Timer', () => {
     })
   })
 
-  describe('When the timer is running', ()=>{
+  describe('When the timer is first running', () => {
     beforeEach(() => {
       previoustate = {
         isRunning: true,
         timeElapsed: 500,
         currentTime: 0,
-        lapTimes: [] 
+        lapTimes: []
       }
     })
-    
+
     describe('and START_STOP is triggered', () => {
       beforeEach(() => {
         newState = reducer(previoustate, 'START_STOP')
@@ -72,10 +73,25 @@ describe('Timer', () => {
         newState = reducer(previoustate, 'LAP_RESET')
       })
       it('lapTimes is populated with one element', () => {
-        expect(newState.lapTimes).toHaveLength(1)  
+        expect(newState.lapTimes).toHaveLength(1)
+      })
+      it('currentTime is set to timeElapsed', () => {
+        expect(newState.currentTime).toBe(500)
       })
     })
   })
+
+  describe('When the timer is running after 1 lap recorded', () => {
+    beforeEach(() => {
+      previoustate = {
+        isRunning: true,
+        timeElapsed: 500,
+        currentTime: 250,
+        lapTimes: []
+      }
+    })
+  })
+
 })
 
 
