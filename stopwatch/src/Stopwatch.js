@@ -3,7 +3,7 @@ import './App.css';
 
 const START_STOP = 'START_STOP';
 const INCREMENT_TIMER = 'INCREMENT_TIMER'
-// const LAP_RESET = 'LAP_RESET';
+const LAP_RESET = 'LAP_RESET';
 
 let initialState = {
     isRunning: false,
@@ -11,41 +11,52 @@ let initialState = {
     currentTime: 0,
     lapTimes: []
 }
-
+let interval;
 
 
 
 function reducer(state, action) {
     switch (action) {
         case START_STOP:
+            console.log("hello " + state.isRunning);
+            // console.log(action)
             return { ...state, isRunning: !state.isRunning };
         case INCREMENT_TIMER:
             if (state.isRunning) {
-                return {...state, timeElapsed: state.timeElapsed + 1}
+                return { ...state, timeElapsed: state.timeElapsed + 1 }
             }
-        // case 'LAP_RESET':
-        //     return null;
+        case LAP_RESET:
+            if (!state.isRunning) {
+                console.log("hi")
+                console.log(action)
+                return { isRunning: false, currentTime: 0, timeElapsed: 0, lapTimes: [] }
+            } else {
+                console.log(state)
+                return { ...state, currentTime: state.timeElapsed, lapTimes: [state.timeElapsed - state.currentTime, ...state.lapTimes] }
+            }
         default:
             return state
-
     }
 }
-
-
 
 const Stopwatch = () => {
 
     const [state, dispatch] = useReducer(reducer, initialState)
-    const { isRunning, timeElapsed, currentTime, lapTimes} = state
+    const { isRunning, timeElapsed, currentTime, lapTimes } = state
     const startStopBtn = isRunning ? 'STOP' : 'START';
-    let interval;
+    const lapResetBtn = isRunning || timeElapsed === 0 ? 'LAP' : 'RESET'
+   
 
     useEffect(() => {
-        interval = setInterval( () => dispatch(INCREMENT_TIMER), 10 )
+        if (state.isRunning) {
+            interval = setInterval(() => dispatch(INCREMENT_TIMER), 10)
+        } else {
+            clearInterval(interval)
+        }
         return () => {
             clearInterval(interval)
         }
-    }, isRunning)
+    }, [state.isRunning])
 
 
     // const findMinMax = (laps) => {
@@ -82,7 +93,7 @@ const Stopwatch = () => {
             <p>{timeElapsed}</p>
             <div className="container">
                 <button onClick={() => dispatch(START_STOP)}>{startStopBtn}</button>
-                {/* <button onClick={() => dispatch({ type: LAP_RESET })} >LAP_RESET</button> */}
+                <button onClick={() => dispatch(LAP_RESET)} >{lapResetBtn}</button>
             </div>
             {/* <table>
                     <tbody>
