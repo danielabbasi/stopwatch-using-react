@@ -13,23 +13,16 @@ let initialState = {
     lapTimes: []
 }
 
-function reducer(state, action) {
+export function reducer(state, action) {
     switch (action) {
         case START_STOP:
-            console.log("hello " + state.isRunning);
-            // console.log(action)
             return { ...state, isRunning: !state.isRunning };
         case INCREMENT_TIMER:
-            if (state.isRunning) {
-                return { ...state, timeElapsed: state.timeElapsed + 1 }
-            }
+            return { ...state, timeElapsed: state.timeElapsed + 1 }
         case LAP_RESET:
             if (!state.isRunning) {
-                console.log("hi")
-                console.log(action)
                 return { isRunning: false, currentTime: 0, timeElapsed: 0, lapTimes: [] }
             } else {
-                console.log(state)
                 return { ...state, currentTime: state.timeElapsed, lapTimes: [state.timeElapsed - state.currentTime, ...state.lapTimes] }
             }
         default:
@@ -82,19 +75,19 @@ const Stopwatch = () => {
 
     return (
         <>
-            <p className = "timer">{millisecondConversion(timeElapsed)}</p>
+            <p className="timer">{millisecondConversion(timeElapsed)}</p>
             <div className="container">
                 <button className={isRunning ? "resetBtn" : "lapBtn"} onClick={() => dispatch(LAP_RESET)} >{lapResetBtn}</button>
                 <button className={isRunning ? "stopBtn" : "startBtn"} onClick={() => dispatch(START_STOP)}>{startStopBtn}</button>
             </div>
             <table>
-                    <tbody>
-                        <td className="lap">Lap {lapTimes.length + 1} </td><td>{millisecondConversion(topRowTimer())}</td>
-                        {lapTimes.map((lap, index) => <tr key={index} className={findMinMax(lap)}>
-                            <td className="lap">Lap {lapTimes.length - index} </td><td className="time">{millisecondConversion(lap)}</td>
-                        </tr>)}
-                    </tbody>
-                </table>
+                <tbody>
+                    <td className="lap">Lap {lapTimes.length + 1} </td><td>{millisecondConversion(topRowTimer())}</td>
+                    {lapTimes.map((lap, index) => <tr key={index} className={findMinMax(lap)}>
+                        <td className="lap">Lap {lapTimes.length - index} </td><td className="time">{millisecondConversion(lap)}</td>
+                    </tr>)}
+                </tbody>
+            </table>
         </>
     )
 }
